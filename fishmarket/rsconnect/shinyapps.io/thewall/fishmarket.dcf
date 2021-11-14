@@ -1,0 +1,13 @@
+name: fishmarket
+title: fishmarket
+username:
+account: thewall
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5119562
+bundleId: 5249511
+url: https://thewall.shinyapps.io/fishmarket/
+when: 1636862106.30264
+lastSyncTime: 1636862106.30264
+asMultiple: FALSE
+asStatic: FALSE
