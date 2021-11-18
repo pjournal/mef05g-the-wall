@@ -1,0 +1,162 @@
+---
+title: "truck_preprocess"
+author: "The_Wall"
+date: "11/18/2021"
+output:
+   html_document:
+     toc: true
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Preprocess of Foreign Trade Statistics - Vehicle and Trailer Tracking
+
+This is our preprocess document our final project.There are six data sources from the same site. One of the links is given below. <https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket/collapse_19/5100/DataGroup/english/bie_undnakliyetih/> . These data sources include Export, Import and Empty Entry data of Turkish and Foreign Vehicles. Our first step was downloading the excel data from the source and importing these files to RStudio.
+
+Here is the code that we import and format the columns into numeric.( There were character formatted columns which needed to be formatted into numeric.)
+
+
+```{r, echo =TRUE, eval = TRUE, warning=FALSE, message=FALSE}
+
+library(readxl) ## for importing excel files
+library(tidyverse) ## for manipulating df's
+library(countrycode) ## for conversion of country codes
+library(dplyr) ## for data manipulation
+
+df_tbg_entry <- read_excel("EVDS_TBG_ENTRY.xlsx")
+df_tbg_entry <- df_tbg_entry %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
+df_tih_export <- read_excel("EVDS_TIH_EXPORT.xlsx")
+df_tih_export <- df_tih_export %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
+df_tit_import <- read_excel("EVDS_TIT_IMPORT.xlsx") 
+df_tit_import <- df_tit_import %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
+df_ybg_entry<- read_excel("EVDS_YBG_ENTRY.xlsx") 
+df_ybg_entry <- df_ybg_entry %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
+df_yih_export<- read_excel("EVDS_YIH_EXPORT.xlsx") 
+df_yih_export <- df_yih_export %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
+df_yit_import<- read_excel("EVDS_YIT_IMPORT.xlsx") 
+df_yit_import <- df_yit_import %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
+```
+
+
+
+## Changing the Names of Columns and Ordering the Columns
+
+There are some problems with these data frames, those we had to get over:
+
+1. There were 169 columns of each data frames. We needed to split them by countries.
+2. Column names were not defined clearly, so we needed to re-define the column names. Here is one of the raw dfs column names (df_tbg_entry)
+
+```{r}
+print(head(colnames(df_tbg_entry)))
+```
+
+
+3. There are country codes, which is complex to read. We needed to convert country codes into country names.
+4. And after we split those dataframes by countries, those were need to be binded into a single dataframe.
+
+Here is the code we create a list which includes the column names those we wanted. The sequence related with raw dataframes.
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+colnames_fixed = c("Level", "PercentageChange","Difference","YearlyPercentageChange","YearlyDifference","DtePreviousYearPercentageChange","DtePreviousYearPercentageDifference","MovingAverage","MovingSum")
+```
+
+Here is the two functions work nested each other. "get_country_codes" function gets the converts the country code into
+country name. Split and combine uses "get_country_codes" function, and splits the dataframes by countries and adds the lacking columns. 
+
+
+```{r, echo =TRUE, eval = TRUE, warning = FALSE, message=FALSE}
+get_country_codes <- function(df){    
+  
+  country_codes <- list() 
+  
+  for(val in names(df))   
+  {
+    country_code <- strsplit(val,split=" ")[[1]][4] 
+    
+    if(!is.na(country_code) & !country_code %in% country_codes){
+      
+      country_codes <- append(country_codes,country_code)
+    }
+    
+  }
+  
+  return(country_codes)
+}
+
+
+split_and_combine <- function(df,vehicletype,exportimport){
+  
+  country_codes <- get_country_codes(df)
+  
+  datasets <- list()
+  
+  for(code in country_codes){
+    
+    df_corrected <- df %>% select(contains(paste(" ",code," A",sep="")))
+    
+    colnames(df_corrected) <- colnames_fixed
+    
+    df_corrected$Date <- df$Tarih
+    
+    df_corrected$ExportImportCountry <- code
+    
+    df_corrected$VehicleType <- vehicletype
+    
+    df_corrected$ExportImport <- exportimport
+    
+    df_corrected$ExportImportCountry <- countrycode(df_corrected$ExportImportCountry,origin = 'iso2c', destination = 'country.name',custom_match = c('CT'='Northern Cyprus','XK' = 'Kosovo','XS'='Serbia'))
+    
+    datasets <- append(datasets,list(df_corrected))
+    
+  }
+  
+  return(bind_rows(datasets))
+  
+}
+```
+
+Now this is the last code. We use split and combine function for all of the dataframes we downloaded. And we binded  all of data frames those we created with "split_and_combine" function via using bind_rows function.
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE, warning= FALSE}
+df_tih_export_cleaned <- split_and_combine(df_tih_export,'TIH','EXPORT')
+df_yih_export_cleaned <- split_and_combine(df_yih_export,'YIH','EXPORT')
+
+df_tit_import_cleaned <- split_and_combine(df_tit_import,'TIT','IMPORT')
+df_yit_import_cleaned <- split_and_combine(df_yit_import,'YIT','IMPORT')
+
+df_tbg_entry_cleaned <- split_and_combine(df_tbg_entry,'TBG','EMPTY ENTRY')
+df_ybg_entry_cleaned <- split_and_combine(df_ybg_entry,'YBG','EMPTY ENTRY')
+
+df_exportimport_final <- bind_rows(df_tih_export_cleaned, df_yih_export_cleaned,df_tit_import_cleaned,df_yit_import_cleaned,df_tbg_entry_cleaned,df_ybg_entry_cleaned)
+
+```
+
+## Final Data Frame
+
+Now we have the single df that includes all we wanted. (df_exportimport_final) Now we can remove the old ones.
+And here is a preview of our single data frame.
+
+```{r chunk-name, include="FALSE"}
+rm(df_tih_export)
+rm(df_yih_export)
+rm(df_tit_import)
+rm(df_yit_import)
+rm(df_tbg_entry)
+rm(df_ybg_entry)
+rm(df_tih_export_cleaned)
+rm(df_yih_export_cleaned)
+rm(df_tit_import_cleaned)
+rm(df_yit_import_cleaned)
+rm(df_tbg_entry_cleaned)
+rm(df_ybg_entry_cleaned)
+print(head(df_exportimport_final))
+```
+```{r, echo=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+print(head(df_exportimport_final))
+```
+
+
+
