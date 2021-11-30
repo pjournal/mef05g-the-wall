@@ -1,13 +1,21 @@
 ---
-title: "truck_preprocess"
-author: "The_Wall"
-date: "11/18/2021"
+title: "EDA of Foreign Trade Statistics - Vehicle and Trailer Tracking"
 output:
    html_document:
-     toc: true
-
+    code_folding: hide
+    toc: true
+    toc_float: true
+    theme: united
+    highlight: pygments
 ---
-
+```{css, echo = FALSE}
+h1.title{
+  color:#d3501d;
+}
+h3{
+  color:#084a4a;
+}
+```
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -26,17 +34,17 @@ library(tidyverse) ## for manipulating df's
 library(countrycode) ## for conversion of country codes
 library(dplyr) ## for data manipulation
 
-df_tbg_entry <- read_excel("EVDS_TBG_ENTRY.xlsx")
+df_tbg_entry <- read_excel("ProjectData/EVDS_TBG_ENTRY.xlsx")
 df_tbg_entry <- df_tbg_entry %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
-df_tih_export <- read_excel("EVDS_TIH_EXPORT.xlsx")
+df_tih_export <- read_excel("ProjectData/EVDS_TIH_EXPORT.xlsx")
 df_tih_export <- df_tih_export %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
-df_tit_import <- read_excel("EVDS_TIT_IMPORT.xlsx") 
+df_tit_import <- read_excel("ProjectData/EVDS_TIT_IMPORT.xlsx") 
 df_tit_import <- df_tit_import %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
-df_ybg_entry<- read_excel("EVDS_YBG_ENTRY.xlsx") 
+df_ybg_entry<- read_excel("ProjectData/EVDS_YBG_ENTRY.xlsx") 
 df_ybg_entry <- df_ybg_entry %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
-df_yih_export<- read_excel("EVDS_YIH_EXPORT.xlsx") 
+df_yih_export<- read_excel("ProjectData/EVDS_YIH_EXPORT.xlsx") 
 df_yih_export <- df_yih_export %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
-df_yit_import<- read_excel("EVDS_YIT_IMPORT.xlsx") 
+df_yit_import<- read_excel("ProjectData/EVDS_YIT_IMPORT.xlsx") 
 df_yit_import <- df_yit_import %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
 ```
 
