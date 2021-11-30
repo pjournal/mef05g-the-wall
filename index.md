@@ -8,8 +8,8 @@
 
 ###  Group Term Project
 
-- [Exploratory Data Analysis of Project](FinalProject/trucks_preprocess.html)
+- [Exploratory Data Analysis of Project](FinalProject/EDA_ForeignTradeStatistics.html)
 
 ###  Group Assignment
 
-[Izmir's Fish Market Shiny App](https://thewall.shinyapps.io/fishmarket/) 
+- [Izmir's Fish Market Shiny App](https://thewall.shinyapps.io/fishmarket/) 
