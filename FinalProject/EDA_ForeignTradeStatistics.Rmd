@@ -19,12 +19,23 @@ h3{
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+# EDA of Foreign Trade Statistics
+
+These data sources contains Export, Import and Empty Entry data of Turkish and Foreign Vehicles.
+
+There are six data sources from the TCMB site. One of the links is given below.
+
+[Dataset Link](https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket/collapse_19/5100/DataGroup/english/bie_undnakliyetih)
+
 
 ## Preprocess of Foreign Trade Statistics - Vehicle and Trailer Tracking
 
-This is our preprocess document our final project.There are six data sources from the same site. One of the links is given below. <https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket/collapse_19/5100/DataGroup/english/bie_undnakliyetih/> . These data sources include Export, Import and Empty Entry data of Turkish and Foreign Vehicles. Our first step was downloading the excel data from the source and importing these files to RStudio.
 
-Here is the code that we import and format the columns into numeric.( There were character formatted columns which needed to be formatted into numeric.)
+### Import Data and Necessary Libraries
+
+Our first step was downloading the excel data from the source and importing these files to RStudio.
+
+Here is the code that we import and format the columns into proper data type.(There were character formatted columns which needed to be formatted into numeric.)
 
 
 ```{r, echo =TRUE, eval = TRUE, warning=FALSE, message=FALSE}
@@ -33,6 +44,7 @@ library(readxl) ## for importing excel files
 library(tidyverse) ## for manipulating df's
 library(countrycode) ## for conversion of country codes
 library(dplyr) ## for data manipulation
+library(kableExtra) # Pretty print DataFrame
 
 df_tbg_entry <- read_excel("ProjectData/EVDS_TBG_ENTRY.xlsx")
 df_tbg_entry <- df_tbg_entry %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
@@ -50,12 +62,12 @@ df_yit_import <- df_yit_import %>% mutate_at(-c(1),funs(type.convert(as.numeric(
 
 
 
-## Changing the Names of Columns and Ordering the Columns
+### Changing the Names of Columns and Ordering the Columns
 
 There are some problems with these data frames, those we had to get over:
 
 1. There were 169 columns of each data frames. We needed to split them by countries.
-2. Column names were not defined clearly, so we needed to re-define the column names. Here is one of the raw dfs column names (df_tbg_entry)
+2. Column names were not defined clearly, so we needed to re-define the column names. Here is one of the raw data frame column names.\
 
 ```{r}
 print(head(colnames(df_tbg_entry)))
@@ -63,7 +75,7 @@ print(head(colnames(df_tbg_entry)))
 
 
 3. There are country codes, which is complex to read. We needed to convert country codes into country names.
-4. And after we split those dataframes by countries, those were need to be binded into a single dataframe.
+4. And after we split those dataframes by countries, those were later merged into a single dataframe.
 
 Here is the code we create a list which includes the column names those we wanted. The sequence related with raw dataframes.
 
@@ -72,7 +84,7 @@ colnames_fixed = c("Level", "PercentageChange","Difference","YearlyPercentageCha
 ```
 
 Here is the two functions work nested each other. "get_country_codes" function gets the converts the country code into
-country name. Split and combine uses "get_country_codes" function, and splits the dataframes by countries and adds the lacking columns. 
+country name. Split and combine uses "get_country_codes" function, and splits the main dataframe by countries as new dataframe merge all dataframes into one by their properties.(Is it foreign or Turkish vehicles or Import-Export etc.)
 
 
 ```{r, echo =TRUE, eval = TRUE, warning = FALSE, message=FALSE}
@@ -126,7 +138,7 @@ split_and_combine <- function(df,vehicletype,exportimport){
 }
 ```
 
-Now this is the last code. We use split and combine function for all of the dataframes we downloaded. And we binded  all of data frames those we created with "split_and_combine" function via using bind_rows function.
+In this last code. We use split and combine function for all of the dataframes and we merged all of data frames those we created with "split_and_combine" function via using bind_rows function.
 
 ```{r, echo=TRUE, eval=TRUE, message=FALSE, warning= FALSE}
 df_tih_export_cleaned <- split_and_combine(df_tih_export,'TIH','EXPORT')
@@ -142,10 +154,12 @@ df_exportimport_final <- bind_rows(df_tih_export_cleaned, df_yih_export_cleaned,
 
 ```
 
-## Final Data Frame
+### Final Data Frame after Preprocess
+\
 
-Now we have the single df that includes all we wanted. (df_exportimport_final) Now we can remove the old ones.
-And here is a preview of our single data frame.
+Now we have the single data frame that includes all we wanted.
+
+Here is a preview of our single data frame.
 
 ```{r chunk-name, include="FALSE"}
 rm(df_tih_export)
@@ -160,10 +174,12 @@ rm(df_tit_import_cleaned)
 rm(df_yit_import_cleaned)
 rm(df_tbg_entry_cleaned)
 rm(df_ybg_entry_cleaned)
-print(head(df_exportimport_final))
 ```
+
 ```{r, echo=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
-print(head(df_exportimport_final))
+kable(tail(df_exportimport_final)) %>%
+  kable_styling("striped", full_width = F) %>%
+  scroll_box(width = "100%", height = "400px")
 ```
 
 
