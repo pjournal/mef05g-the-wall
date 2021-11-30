@@ -8,6 +8,10 @@
 
 ###  Group Term Project
 
+Foreign Trade Statistics - Vehicle and Trailer Tracking (2012-2021)
+
+The group analyzed Foreign Trade Statistics that includes import and export data of vehicles and trailers from January 2012 to October 2021.In dataset there are 13 variables such as; Date, Level,	PercentageChange,	Difference,	YearlyPercentageChange,	YearlyDifference,	DtePreviousYearPercentageChange,	DtePreviousYearPercentageDifference,	MovingAverage	MovingSum, ExportImportCountry,	VehicleType, ExportImport and dataset contains 50112 records.
+
 - [Exploratory Data Analysis of Project](FinalProject/EDA_ForeignTradeStatistics.html)
 
 ###  Group Assignment
