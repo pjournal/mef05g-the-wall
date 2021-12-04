@@ -45,6 +45,8 @@ library(tidyverse) ## for manipulating df's
 library(countrycode) ## for conversion of country codes
 library(dplyr) ## for data manipulation
 library(kableExtra) # Pretty print DataFrame
+library(zoo) # Used for converting year month character to date data type
+library(wordcloud2)
 
 df_tbg_entry <- read_excel("ProjectData/EVDS_TBG_ENTRY.xlsx")
 df_tbg_entry <- df_tbg_entry %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
@@ -151,6 +153,8 @@ df_tbg_entry_cleaned <- split_and_combine(df_tbg_entry,'TBG','EMPTY ENTRY')
 df_ybg_entry_cleaned <- split_and_combine(df_ybg_entry,'YBG','EMPTY ENTRY')
 
 df_exportimport_final <- bind_rows(df_tih_export_cleaned, df_yih_export_cleaned,df_tit_import_cleaned,df_yit_import_cleaned,df_tbg_entry_cleaned,df_ybg_entry_cleaned)
+df_exportimport_final[is.na(df_exportimport_final)] <- 0
+df_exportimport_final$Date <- as.yearmon(df_exportimport_final$Date)
 
 ```
 
@@ -181,6 +185,64 @@ kable(tail(df_exportimport_final)) %>%
   kable_styling("striped", full_width = F) %>%
   scroll_box(width = "100%", height = "400px")
 ```
+
+
+# Exploratory Data Analysis
+
+In this section we will analyze and find some interesting insights from our dataset.
+
+### Summary of Dataset
+
+We have 13 columns. 3 of them is character data type, 1 of them is date data type and rest of all is numeric data type.
+
+You can see detailed summary statistics from below.
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+summary(df_exportimport_final)
+
+```
+
+### Missing Values
+
+We don’t have any missing values in our tables as you can see below, that is because we have already fill NA values with 0 in preprocess step.
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+colSums(is.na(df_exportimport_final))
+
+```
+
+### Most Import-Export Countries
+
+
+Import Plot
+
+```{r code chunk 1,fig.width=9, fig.height=4, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+
+#Import
+ImportFreq <- df_exportimport_final %>% filter(ExportImport == 'IMPORT') %>% group_by(ExportImportCountry) %>% summarize(TotalImport = sum(Level)) %>% arrange(desc(TotalImport))
+
+wordcloud2(data=ImportFreq, size=0.5)
+
+
+```
+
+
+
+```{r code chunk 2,fig.width=9, fig.height=4, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE, fig.keep='all'}
+
+
+
+#Export
+ExportFreq <- df_exportimport_final %>% filter(ExportImport == 'EXPORT') %>% group_by(ExportImportCountry) %>% summarize(TotalExport = sum(Level)) %>% arrange(desc(TotalExport))
+
+wordcloud2(data=ExportFreq, size=0.5)
+
+
+```
+
 
 
 
