@@ -1,0 +1,56 @@
+---
+title: "Project Proposal"
+author: "The_Wall"
+output:
+   html_document:
+     toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Project Proposal
+
+These data sources include Export, Import and Empty Entry data of Turkish and Foreign Vehicles. There are 9 columns for each countries.(There are 72 countries included). We planned to analyze and create some interesting insights from our data sets.  
+
+
+One of the links is given below. \
+
+- [Data set](https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket/collapse_19/5100/DataGroup/english/bie_undnakliyetih/)
+
+Columns:
+
+- "Tarih"                        : Contains Date in Year-Month Format
+- "TP UNDNAKLIYE TBG AF ADET"    : Contains Monthly Vehicle Amount
+- "TP UNDNAKLIYE TBG AF ADET-1"  : Contains Percentage Vehicle Amount Change Between Previous Month 
+- "TP UNDNAKLIYE TBG AF ADET-2"  : Contains Vehicle Amount Difference Between Previous Month
+- "TP UNDNAKLIYE TBG AF ADET-3"  : Contains Percentage Vehicle Amount Change Between Previous Year
+- "TP UNDNAKLIYE TBG AF ADET-4"  : Contains Vehicle Amount Difference Between Previous Year
+- "TP UNDNAKLIYE TBG AF ADET-5"  : Contains Percentage Change Compared to End-of-Previous Year
+- "TP UNDNAKLIYE TBG AF ADET-6"  : Contains Difference Compared to End-of-Previous Year
+- "TP UNDNAKLIYE TBG AF ADET-7"  : Contains Moving Average
+- "TP UNDNAKLIYE TBG AF ADET-8"  : Contains Moving Sum
+
+Column names include: Country Codes, Short Code of Export/Import/Empty Entry & Vehicle Type Info. 
+For example, you can see AF as Afghanistan short code above. The explanations of short codes of 
+vehicle type and import/export/ empty entry information are given below:
+
+- "TIH" : Turkish Vehicle Export
+- "YIH" : Foreign Vehicle Export
+- "TIT" : Turkish Vehicle Import
+- "YIT" : Foregin Vehicle Import
+- "TBG" : Turkish Vehicle Empty Entry
+- "YBG" : Foreign Vehicle Empty Entry
+
+
+
+## Project Steps
+
+- Downloading Data
+- Transforming and Cleaning Data
+- Explatory Data Analysis
+- Creating a functional Shiny App that shows Import/Export/Empty Entry Information with multiple filters
+
+
+
