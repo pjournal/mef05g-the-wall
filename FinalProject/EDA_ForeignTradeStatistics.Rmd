@@ -132,6 +132,10 @@ split_and_combine <- function(df,vehicletype,exportimport){
     
     df_corrected$ExportImportCountry <- countrycode(df_corrected$ExportImportCountry,origin = 'iso2c', destination = 'country.name',custom_match = c('CT'='Northern Cyprus','XK' = 'Kosovo','XS'='Serbia'))
     
+    df_corrected$ExportImportRegion <- countrycode(sourcevar = df_corrected$ExportImportCountry,
+                            origin = "country.name",
+                            destination = "continent",custom_match = c('Kosovo'='Europe'))
+    
     datasets <- append(datasets,list(df_corrected))
     
   }
@@ -194,7 +198,7 @@ In this section we will analyze and find some interesting insights from our data
 
 ### Summary of Dataset
 
-We have 13 columns. 3 of them is character data type, 1 of them is date data type and rest of all is numeric data type.
+We have 14 columns. 4 of them is character data type, 1 of them is date data type and rest of all is numeric data type.
 
 You can see detailed summary statistics from below.
 
@@ -254,12 +258,107 @@ wordcloud2(data=ExportFreq, size=0.8)
 
 ### Export-Import Trend
 
-```{r, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+As seen in the graph below we can see parallel increase and decrease between Import and Export numbers on Quarterly basis. Moreover we can see drops on export and import numbers between fourth quarter and first quarter. We strongly believe this is due to winter conditions also we are seeing a huge drop in between 2020-Q1 and 2020-Q2 due to Corona Virus.
 
 
-df_exportimport_final %>% filter(ExportImport == 'EXPORT' | ExportImport == 'IMPORT')  %>% group_by(Date,ExportImport) %>% summarize(TotalExport = sum(Level)) %>%   ggplot( aes(x=Date, y=TotalExport, group=ExportImport, color=ExportImport)) +
-         geom_line() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+df_exportimport_final %>% 
+  filter(ExportImport == 'EXPORT' | ExportImport == 'IMPORT')  %>% 
+  group_by(Date,ExportImport) %>% summarize(TotalExportImport = sum(Level)) %>%   
+  ggplot( aes(x=Date, y=TotalExportImport, group=ExportImport, color=ExportImport)) +
+  zoo::scale_x_yearqtr(n = 100,format = '%Y Q%q') +
+  geom_line() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "Import and Export numbers on Quarterly basis")
+```
+
+
+
+### Export-Import Numbers Based On Vehicle Type (Turkish or Foreign Vehicles)
+\
+
+We can see in bar charts below Turkish vehicles mostly used for imports and exports.
+
+Imports and Exports Percentages based on Vehicle Type also shown in tables.
+
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+
+# Export
+ExportVehicles <- df_exportimport_final %>%  filter(ExportImport == 'EXPORT') %>% group_by(VehicleType) %>% summarize(TotalExport = sum(Level))
+ggplot(ExportVehicles , aes(y=TotalExport, x=VehicleType)) + 
+  geom_bar(position="dodge", stat="identity") + labs(title = "Export Numbers based on Vehicle Types")
+
 
 ```
 
 
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+df_exportimport_final %>%  filter(ExportImport == 'EXPORT') %>% group_by(VehicleType) %>% summarize(TotalExport = sum(Level)) %>% mutate(Percentage = TotalExport / sum(TotalExport)*100) %>% select(VehicleType,Percentage)
+
+```
+
+
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+#Import
+ImportVehicles <- df_exportimport_final %>%  filter(ExportImport == 'IMPORT') %>% group_by(VehicleType) %>% summarize(TotalImport = sum(Level))
+ggplot(ImportVehicles , aes(y=TotalImport, x=VehicleType)) + 
+  geom_bar(position="dodge", stat="identity") + labs(title = "Import Numbers based on Vehicle Types")
+
+```
+
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+df_exportimport_final %>%  filter(ExportImport == 'IMPORT') %>% group_by(VehicleType) %>% summarize(TotalExport = sum(Level)) %>% mutate(Percentage = TotalExport / sum(TotalExport)*100) %>% select(VehicleType,Percentage)
+
+```
+
+
+
+### Export-Import Numbers Based On Region Wise
+
+
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+df_exportimport_final %>% 
+  filter(ExportImport == 'IMPORT')  %>% 
+  group_by(Date,ExportImportRegion) %>% summarize(TotalExport = sum(Level)) %>%   
+  ggplot( aes(x=Date, y=TotalExport, group=ExportImportRegion, color=ExportImportRegion)) +
+  zoo::scale_x_yearqtr(n = 100,format = '%Y Q%q') +
+  geom_line() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "Import numbers on Quarterly basis and Region Wise")
+
+```
+
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+df_exportimport_final %>% 
+  filter(ExportImport == 'EXPORT')  %>% 
+  group_by(Date,ExportImportRegion) %>% summarize(TotalExport = sum(Level)) %>%   
+  ggplot( aes(x=Date, y=TotalExport, group=ExportImportRegion, color=ExportImportRegion)) +
+  zoo::scale_x_yearqtr(n = 100,format = '%Y Q%q') +
+  geom_line() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "Export numbers on Quarterly basis and Region Wise")
+
+
+```
