@@ -48,6 +48,7 @@ library(kableExtra) # Pretty print DataFrame
 library(zoo) # Used for converting year month character to date data type
 library(wordcloud2)
 
+
 df_tbg_entry <- read_excel("ProjectData/EVDS_TBG_ENTRY.xlsx")
 df_tbg_entry <- df_tbg_entry %>% mutate_at(-c(1),funs(type.convert(as.numeric(.))))
 df_tih_export <- read_excel("ProjectData/EVDS_TIH_EXPORT.xlsx")
@@ -216,33 +217,49 @@ colSums(is.na(df_exportimport_final))
 ### Most Import-Export Countries
 
 
+The Word Cloud graphs in the below shows us most imported and exported countries based on country name size.
+
+Most import countries as we can see below are EU countries such as Germany, Italy, France etc. On the other hand countries close to our border like Iraq, Iran, Bulgaria etc.
+
+
 Import Plot
 
-```{r code chunk 1,fig.width=9, fig.height=4, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
 
 
 #Import
 ImportFreq <- df_exportimport_final %>% filter(ExportImport == 'IMPORT') %>% group_by(ExportImportCountry) %>% summarize(TotalImport = sum(Level)) %>% arrange(desc(TotalImport))
 
-wordcloud2(data=ImportFreq, size=0.5)
-
+wordcloud2(data=ImportFreq, size=0.8)
 
 ```
 
 
+Most export countries as we can see below are countries close to our borders. Top countries are usually in middle east or Asia, followed by EU countries.
 
-```{r code chunk 2,fig.width=9, fig.height=4, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE, fig.keep='all'}
+Export Plot
 
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
 
 
 #Export
 ExportFreq <- df_exportimport_final %>% filter(ExportImport == 'EXPORT') %>% group_by(ExportImportCountry) %>% summarize(TotalExport = sum(Level)) %>% arrange(desc(TotalExport))
 
-wordcloud2(data=ExportFreq, size=0.5)
-
+wordcloud2(data=ExportFreq, size=0.8)
 
 ```
 
 
+
+### Export-Import Trend
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+df_exportimport_final %>% filter(ExportImport == 'EXPORT' | ExportImport == 'IMPORT')  %>% group_by(Date,ExportImport) %>% summarize(TotalExport = sum(Level)) %>%   ggplot( aes(x=Date, y=TotalExport, group=ExportImport, color=ExportImport)) +
+         geom_line() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
 
 
