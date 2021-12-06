@@ -1,10 +1,12 @@
 ---
 title: "EDA of Foreign Trade Statistics - Vehicle and Trailer Tracking"
 output:
-   html_document:
+  pdf_document:
+    toc: yes
+  html_document:
     code_folding: hide
-    toc: true
-    toc_float: true
+    toc: yes
+    toc_float: yes
     theme: united
     highlight: pygments
 ---

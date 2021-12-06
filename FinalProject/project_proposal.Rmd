@@ -17,7 +17,7 @@ These data sources include Export, Import and Empty Entry data of Turkish and Fo
 
 One of the links is given below. \
 
-- [Data set](https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket/collapse_19/5100/DataGroup/english/bie_undnakliyetih/)
+- [Dataset](https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket/collapse_19/5100/DataGroup/english/bie_undnakliyetih/)
 
 Columns:
 
@@ -49,8 +49,8 @@ vehicle type and import/export/ empty entry information are given below:
 
 - Downloading Data
 - Transforming and Cleaning Data
-- Explatory Data Analysis
-- Creating a functional Shiny App that shows Import/Export/Empty Entry Information with multiple filters
+- Exploratory Data Analysis
+- Creating a functional Shiny App that shows Import/Export Information with multiple filters
 
 
 
