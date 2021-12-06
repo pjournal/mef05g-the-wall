@@ -18,7 +18,10 @@ The group analyzed Foreign Trade Statistics that includes import and export data
 - [Exploratory Data Analysis of Project](FinalProject/EDA_ForeignTradeStatistics.html)
 - [Final Report](FinalProject/EDA_ForeignTradeStatistics.html)
 - [Presentation](FinalProject/EDA_ForeignTradeStatistics.html)
-- [Shiny App](FinalProject/EDA_ForeignTradeStatistics.html)
+- [Shiny App](https://thewall.shinyapps.io/ForeignTradeStatistics_ShinyApp/)
+
+You can run shiny app with this code:
+shiny::runGitHub("mef05g-the-wall", "pjournal", subdir = "FinalProject/ForeignTradeStatistics_ShinyApp", ref = "gh-pages")
 
 ###  Group Assignment
 
