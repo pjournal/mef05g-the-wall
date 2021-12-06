@@ -1,0 +1,13 @@
+name: ForeignTradeStatistics_ShinyApp
+title: ForeignTradeStatistics_ShinyApp
+username:
+account: thewall
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5274772
+bundleId: 5333293
+url: https://thewall.shinyapps.io/ForeignTradeStatistics_ShinyApp/
+when: 1638783630.95151
+lastSyncTime: 1638783630.95151
+asMultiple: FALSE
+asStatic: FALSE
