@@ -14,7 +14,8 @@ Foreign Trade Statistics - Vehicle and Trailer Tracking (2012-2021)
 
 The group analyzed Foreign Trade Statistics that includes import and export data of vehicles and trailers from January 2012 to October 2021.In dataset there are 14 variables such as; Date, Level,	PercentageChange, Difference, YearlyPercentageChange, YearlyDifference, DtePreviousYearPercentageChange, DtePreviousYearPercentageDifference,	MovingAverage, MovingSum, ExportImportCountry, VehicleType, ExportImport, ExportImportRegion and dataset contains 50112 records.
 
-- [Project Proposal](FinalProject/project_proposal.html) 
+- [Project Proposal](FinalProject/project_proposal.html)
+- [Project Proposal PDF](FinalProject/project_proposal.pdf) 
 - [Exploratory Data Analysis of Project](FinalProject/EDA_ForeignTradeStatistics.html)
 - [Final Report](FinalProject/EDA_ForeignTradeStatistics.html)
 - [Presentation](FinalProject/EDA_ForeignTradeStatistics.html)
