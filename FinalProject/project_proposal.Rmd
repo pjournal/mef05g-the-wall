@@ -2,8 +2,10 @@
 title: "Project Proposal"
 author: "The_Wall"
 output:
-   html_document:
-     toc: true
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
