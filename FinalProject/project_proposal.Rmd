@@ -41,7 +41,7 @@ vehicle type and import/export/ empty entry information are given below:
 - "TIH" : Turkish Vehicle Export
 - "YIH" : Foreign Vehicle Export
 - "TIT" : Turkish Vehicle Import
-- "YIT" : Foregin Vehicle Import
+- "YIT" : Foreign Vehicle Import
 - "TBG" : Turkish Vehicle Empty Entry
 - "YBG" : Foreign Vehicle Empty Entry
 

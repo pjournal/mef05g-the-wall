@@ -1,0 +1,69 @@
+---
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+  html_document: default
+---
+
+```{r, echo =FALSE, eval = TRUE, warning=FALSE, message=FALSE}
+
+library(readxl) ## for importing excel files
+library(tidyverse) ## for manipulating df's
+library(countrycode) ## for conversion of country codes
+library(dplyr) ## for data manipulation
+library(kableExtra) # Pretty print DataFrame
+library(zoo) # Used for converting year month character to date data type
+library(wordcloud2)
+
+df_exportimport_final <- readRDS('ProjectData/ProcessedData/df_exportimport_final.rds')
+
+```
+
+class: center,middle
+# Foreign Trade Statistics - Vehicle and Trailer Tracking
+
+The Wall
+
+2021.12.07
+---
+# Group Project
+
+This presentation was prepared for group project of BDA 503-Essentials Data Analytics course.
+
+Group Members;
+
+- Anıl Okyol
+- Kerem Yalçınkaya
+- Kadir Baver Kerimoğlu 
+---
+
+# Dataset Information
+
+Foreign Trade Statistics - Vehicle and Trailer Tracking dataset includes information on Export, Import and Empty Entry data of Turkish and Foreign Vehicles from 2012 to 2021 with total 72 countries. There are total 14 attributes.
+
+You can find the whole report in [here.](https://pjournal.github.io/mef05g-the-wall/FinalProject/EDA_ForeignTradeStatistics.html)
+---
+
+# Objectives and Project Steps
+
+In this group project we analyzed the import and export numbers based on different attributes.
+
+
+Here is the steps we've taken,
+
+- Downloading Data
+- Transforming and Cleaning Data
+- Exploratory Data Analysis
+- Creating a functional Shiny App that shows Import/Export Information with multiple filters given by end user.
+
+---
+# Data
+
+```{r, echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
+str(df_exportimport_final)
+```
+
+
+
+
+

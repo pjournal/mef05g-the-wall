@@ -1,14 +1,14 @@
 ---
 title: "EDA of Foreign Trade Statistics - Vehicle and Trailer Tracking"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     code_folding: hide
     toc: yes
     toc_float: yes
     theme: united
     highlight: pygments
+  pdf_document:
+    toc: yes
 ---
 ```{css, echo = FALSE}
 h1.title{
@@ -332,6 +332,7 @@ df_exportimport_final %>%  filter(ExportImport == 'IMPORT') %>% group_by(Vehicle
 ### Export-Import Numbers Based On Region Wise
 
 
+In this part we analyse our Import data based on Regions. As we can see in the plot below, import levels in Europe are way greater than Asia and Africa regions. Africa has the lowest import numbers among all. When we analyze the line running by quarters, import lines are quite bumpy. This irregularity can be considered as a factor of seasonal and political changes. In Africa region the line runs steadily.
 
 
 ```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
@@ -348,7 +349,7 @@ df_exportimport_final %>%
 
 ```
 
-
+In the second plot we analyse our Export data based on Regions. As we can see in the plot below, export levels in Asia are greater than Europe region in the beginnings of our line chart, but export numbers of Europe has caught Asia numbers lately. Africa's line runs steady and has the lowest export numbers among all.
 
 ```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
 
