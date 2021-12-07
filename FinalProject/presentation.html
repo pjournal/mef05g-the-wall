@@ -6,6 +6,11 @@
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <link href="libs/wordcloud2-1.1.1/wordcloud.css" rel="stylesheet" />
+    <script src="libs/wordcloud2-1.1.1/wordcloud2.js"></script>
+    <script src="libs/wordcloud2-1.1.1/hover.js"></script>
+    <script src="libs/wordcloud2-binding-0.2.3/wordcloud2.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -53,6 +58,9 @@ Here is the steps we've taken,
 ---
 # Data
 
+Dataset consists of 50112 observation and 14 attributes.
+
+.left[
 
 ```
 ## tibble [50,112 x 14] (S3: tbl_df/tbl/data.frame)
@@ -72,14 +80,111 @@ Here is the steps we've taken,
 ##  $ ExportImportRegion                 : chr [1:50112] "Asia" "Asia" "Asia" "Asia" ...
 ```
 
+&lt;table&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+# Most Imported Countries
+
+.pull-left[
+
+Most import countries as we can see in the right are EU countries such as Germany, Italy, France etc.
+
+On the other hand countries close to our border like Iraq, Iran, Bulgaria etc.
+
+]
 
 
+.pull-right[
+<div id="htmlwidget-506697b10987d820686c" style="width:648px;height:432px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-506697b10987d820686c">{"x":{"word":["Germany","Iran","Italy","Iraq","Bulgaria","Romania","France","Poland","Hungary","Ukraine","Greece","Uzbekistan","Turkmenistan","Netherlands","Czechia","Russia","Spain","Azerbaijan","Austria","United Kingdom","Belgium","Slovakia","Serbia","Syria","Northern Cyprus","Slovenia","North Macedonia","Georgia","Bosnia & Herzegovina","Sweden","Tajikistan","Switzerland","Saudi Arabia","Kyrgyzstan","Belarus","Kazakhstan","Moldova","Denmark","Finland","Croatia","Norway","Luxembourg","Albania","Kosovo","Lithuania","Ireland","Latvia","Portugal","Lebanon","Egypt","Jordan","Montenegro","Estonia","Afghanistan","United Arab Emirates","Kuwait","Qatar","Israel","Morocco","Mongolia","Pakistan","Armenia","Bahrain","Oman","Liechtenstein","Tunisia","Palestinian Territories","Algeria","Yemen","Gibraltar","Libya","Malta"],"freq":[1081967,564838,556226,552137,391111,319868,282175,202103,134393,130704,122514,105632,105440,101525,92540,85926,84191,80324,76429,74575,72582,71373,57212,54163,52064,48159,46449,44763,32570,32127,29729,27460,23557,23040,22964,22279,18308,17212,11798,11517,7917,6193,5304,4083,4072,3625,3142,2819,2771,2505,1844,1601,1532,1306,689,223,176,132,97,86,86,81,76,30,26,19,16,8,7,4,1,0],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.000116454568392566,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":[]}</script>
+
+]
 
 
+---
+# Most Exported Countries
+
+
+.pull-left[
+
+Most export countries as we can see in the right are countries close to our borders. 
+
+Top countries are usually in middle east or Asia, followed by EU countries.
+
+
+]
+
+
+.pull-right[
+<div id="htmlwidget-8a4bb62fa850b1abf6ad" style="width:504px;height:504px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8a4bb62fa850b1abf6ad">{"x":{"word":["Iraq","Syria","Germany","Iran","Azerbaijan","Georgia","Bulgaria","Romania","Italy","France","Russia","Poland","Turkmenistan","Northern Cyprus","Greece","United Kingdom","Ukraine","Spain","Serbia","Netherlands","North Macedonia","Uzbekistan","Hungary","Czechia","Austria","Kazakhstan","Belgium","Belarus","Bosnia & Herzegovina","Moldova","Albania","Sweden","Slovakia","Switzerland","Slovenia","Croatia","Lebanon","Denmark","Kosovo","Tajikistan","Saudi Arabia","Kyrgyzstan","Afghanistan","Lithuania","Finland","Montenegro","Norway","Latvia","Jordan","Portugal","Kuwait","Estonia","Ireland","Luxembourg","Egypt","Qatar","United Arab Emirates","Israel","Tunisia","Armenia","Pakistan","Mongolia","Yemen","Morocco","Oman","Liechtenstein","Bahrain","Palestinian Territories","Algeria","Malta","Gibraltar","Libya"],"freq":[5006611,1145866,1059689,732914,710915,683397,611046,604579,428522,335742,329142,273503,252834,241395,209526,197765,195416,176329,159376,158830,137855,131657,117514,108124,101489,99925,87848,78244,77747,65547,57603,56320,54491,48091,45640,37708,37619,37492,37396,35635,32637,32604,28165,26430,13016,12832,11094,9659,8539,8066,5884,5297,4667,3759,2888,2377,1797,1773,1353,1100,782,692,636,570,399,89,70,32,2,1,0,0],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":3.59524636525586e-05,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":[]}</script>
+
+]
+
+---
+# Export-Import Trend
+
+![](presentation_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+# Export-Import Numbers Based On Vehicle Type
+
+.pull-left[
+![](presentation_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+![](presentation_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Export Numbers Based On Region Wise
+
+![](presentation_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+
+# Import Numbers Based On Region Wise
+
+![](presentation_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+---
+
+# Shiny App
+
+![ShinyApp](shinyappscreenshot.png)
+---
+
+#Conclusion
+
+1. Most imported countries are EU countries such as Germany, Italy, France etc. On the other hand countries close to our border like Iraq, Iran, Bulgaria etc.
+2. Most exported countries are countries close to our borders. Top countries are usually in middle east or Asia, followed by EU countries.
+3. There is parallel increase and decrease between Import and Export numbers on Quarterly basis. Moreover we found out drops on export and import numbers between fourth quarter and first quarter on every year. We strongly believe this is due to winter conditions also we found out a huge drop in between 2020-Q1 and 2020-Q2.We believe this is due to the Corona Virus.
+4. Turkish vehicles mostly used for imports and exports.
+5. Import levels in Europe are way greater than Asia and Africa regions. Africa has the lowest import numbers among all. When we analyze the line running by quarters, import lines are quite bumpy. This irregularity can be considered as a factor of seasonal and political changes. In Africa region the line runs steadily.
+
+
+---
+
+class: center,middle
+Thank you for listening...
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>var slideshow = remark.create();
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
@@ -144,7 +249,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
       links[i].target = '_blank';
     }
   }
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {
