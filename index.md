@@ -5,7 +5,6 @@
 - [Anıl Okyol](https://pjournal.github.io/mef05-okyolanil/)
 - [Kerem Yalçınkaya](https://pjournal.github.io/mef05-keremlyalcinkaya/)
 - [Kadir Baver Kerimoğlu](https://pjournal.github.io/mef05-kadirbaverkerimoglu/)
-- [Melih Mert Tunç](https://pjournal.github.io/mef05-mmerttunc/)
 
 
 ###  Group Term Project
