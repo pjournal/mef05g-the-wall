@@ -73,6 +73,33 @@ knitr::kable(str(df_exportimport_final), format = "html")
 ]
 
 ---
+# Dataset Information
+
+
+
+.pull-left[
+Exporting is defined as the sale of products and services in foreign countries that are sourced or made in the home country. 
+
+Importing is the flipside of exporting. Importing refers to buying goods and services from foreign sources and bringing them back into the home country.
+
+Empty entry is vehicle without goods that entering the country.
+
+]
+
+
+.pull-right[
+```{r, echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
+
+VehicleTypes <- unique(df_exportimport_final$VehicleType)
+Explanation <- c("Turkish Vehicles (Export)", "Foreign vehicles (Export)", "Turkish vehicles (Import)","Foreign vehicles (Import)","Turkish vehicles (Empty Entry)","Foreign vehicles (Empty Entry)")
+
+df_vehicle_explanation <- data.frame(VehicleTypes, Explanation)
+
+knitr::kable(df_vehicle_explanation, format = "html")
+```
+]
+
+---
 # Most Imported Countries
 
 .pull-left[

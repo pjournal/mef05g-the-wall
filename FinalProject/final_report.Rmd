@@ -1,0 +1,218 @@
+---
+title: "Final Report of Foreign Trade Statistics - Vehicle and Trailer Tracking"
+output:
+  html_document:
+    code_folding: hide
+    toc: yes
+    toc_float: yes
+    theme: united
+    highlight: pygments
+  pdf_document:
+    toc: yes
+---
+```{css, echo = FALSE}
+h1.title{
+  color:#d3501d;
+}
+h3{
+  color:#084a4a;
+}
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl) ## for importing excel files
+library(tidyverse) ## for manipulating df's
+library(countrycode) ## for conversion of country codes
+library(dplyr) ## for data manipulation
+library(kableExtra) # Pretty print DataFrame
+library(zoo) # Used for converting year month character to date data type
+library(wordcloud2)
+
+df_exportimport_final <- readRDS('ProjectData/ProcessedData/df_exportimport_final.rds')
+```
+# Final Report of Foreign Trade Statistics
+
+These data sources contains Export, Import and Empty Entry data of Turkish and Foreign Vehicles.
+
+There are six data sources from the TCMB site. One of the links is given below.
+
+[Dataset Link](https://evds2.tcmb.gov.tr/index.php?/evds/serieMarket/collapse_19/5100/DataGroup/english/bie_undnakliyetih)
+
+# Key Takeaways
+
+1. Most imported countries are EU countries such as Germany, Italy, France etc. On the other hand countries close to our border like Iraq, Iran, Bulgaria etc.
+2. Most exported countries are countries close to our borders. Top countries are usually in middle east or Asia, followed by EU countries.
+3. There is parallel increase and decrease between Import and Export numbers on Quarterly basis. Moreover we found out drops on export and import numbers between fourth quarter and first quarter on every year. We strongly believe this is due to winter conditions also we found out a huge drop in between 2020-Q1 and 2020-Q2.We believe this is due to the Corona Virus.
+4. Turkish vehicles mostly used for imports and exports.
+5. Import levels in Europe are way greater than Asia and Africa regions. Africa has the lowest import numbers among all. When we analyze the line running by quarters, import lines are quite bumpy. This irregularity can be considered as a factor of seasonal and political changes. In Africa region the line runs steadily.
+
+
+
+# Exploratory Data Analysis
+
+In this section we will analyze and find some interesting insights from our dataset.
+
+### Summary of Dataset
+
+We have 14 columns. 4 of them is character data type, 1 of them is date data type and rest of all is numeric data type.
+
+You can see detailed summary statistics from below.
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+summary(df_exportimport_final)
+
+```
+
+### Most Import-Export Countries
+
+
+The Word Cloud graphs in the below shows us most imported and exported countries based on country name size.
+
+Most import countries as we can see below are EU countries such as Germany, Italy, France etc. On the other hand countries close to our border like Iraq, Iran, Bulgaria etc.
+
+
+Import Plot
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+#Import
+ImportFreq <- df_exportimport_final %>% filter(ExportImport == 'IMPORT') %>% group_by(ExportImportCountry) %>% summarize(TotalImport = sum(Level)) %>% arrange(desc(TotalImport))
+
+wordcloud2(data=ImportFreq, size=0.8)
+
+```
+
+
+Most export countries as we can see below are countries close to our borders. Top countries are usually in middle east or Asia, followed by EU countries.
+
+Export Plot
+
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+#Export
+ExportFreq <- df_exportimport_final %>% filter(ExportImport == 'EXPORT') %>% group_by(ExportImportCountry) %>% summarize(TotalExport = sum(Level)) %>% arrange(desc(TotalExport))
+
+wordcloud2(data=ExportFreq, size=0.8)
+
+```
+
+
+
+### Export-Import Trend
+
+
+As seen in the graph below we can see parallel increase and decrease between Import and Export numbers on Quarterly basis. Moreover we can see drops on export and import numbers between fourth quarter and first quarter. We strongly believe this is due to winter conditions also we are seeing a huge drop in between 2020-Q1 and 2020-Q2 due to Corona Virus.
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+df_exportimport_final %>% 
+  filter(ExportImport == 'EXPORT' | ExportImport == 'IMPORT')  %>% 
+  group_by(Date,ExportImport) %>% summarize(TotalExportImport = sum(Level)) %>%   
+  ggplot( aes(x=Date, y=TotalExportImport, group=ExportImport, color=ExportImport)) +
+  zoo::scale_x_yearqtr(n = 100,format = '%Y Q%q') +
+  geom_line() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "Import and Export numbers on Quarterly basis")
+```
+
+
+
+### Export-Import Numbers Based On Vehicle Type (Turkish or Foreign Vehicles)
+\
+
+We can see in bar charts below Turkish vehicles mostly used for imports and exports.
+
+Imports and Exports Percentages based on Vehicle Type also shown in tables.
+
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+
+# Export
+ExportVehicles <- df_exportimport_final %>%  filter(ExportImport == 'EXPORT') %>% group_by(VehicleType) %>% summarize(TotalExport = sum(Level))
+ggplot(ExportVehicles , aes(y=TotalExport, x=VehicleType)) + 
+  geom_bar(position="dodge", stat="identity") + labs(title = "Export Numbers based on Vehicle Types")
+
+
+```
+
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+df_exportimport_final %>%  filter(ExportImport == 'EXPORT') %>% group_by(VehicleType) %>% summarize(TotalExport = sum(Level)) %>% mutate(Percentage = TotalExport / sum(TotalExport)*100) %>% select(VehicleType,Percentage)
+
+```
+
+
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+#Import
+ImportVehicles <- df_exportimport_final %>%  filter(ExportImport == 'IMPORT') %>% group_by(VehicleType) %>% summarize(TotalImport = sum(Level))
+ggplot(ImportVehicles , aes(y=TotalImport, x=VehicleType)) + 
+  geom_bar(position="dodge", stat="identity") + labs(title = "Import Numbers based on Vehicle Types")
+
+```
+
+
+```{r, echo = TRUE, eval = TRUE, warning=FALSE, warning=FALSE}
+
+df_exportimport_final %>%  filter(ExportImport == 'IMPORT') %>% group_by(VehicleType) %>% summarize(TotalExport = sum(Level)) %>% mutate(Percentage = TotalExport / sum(TotalExport)*100) %>% select(VehicleType,Percentage)
+
+```
+
+
+
+### Export-Import Numbers Based On Region Wise
+
+
+In this part we analyse our Import data based on Regions. As we can see in the plot below, import levels in Europe are way greater than Asia and Africa regions. Africa has the lowest import numbers among all. When we analyze the line running by quarters, import lines are quite bumpy. This irregularity can be considered as a factor of seasonal and political changes. In Africa region the line runs steadily.
+
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+df_exportimport_final %>% 
+  filter(ExportImport == 'IMPORT')  %>% 
+  group_by(Date,ExportImportRegion) %>% summarize(TotalExport = sum(Level)) %>%   
+  ggplot( aes(x=Date, y=TotalExport, group=ExportImportRegion, color=ExportImportRegion)) +
+  zoo::scale_x_yearqtr(n = 100,format = '%Y Q%q') +
+  geom_line() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "Import numbers on Quarterly basis and Region Wise")
+
+```
+
+In the second plot we analyse our Export data based on Regions. As we can see in the plot below, export levels in Asia are greater than Europe region in the beginnings of our line chart, but export numbers of Europe has caught Asia numbers lately. Africa's line runs steady and has the lowest export numbers among all.
+
+```{r ,fig.height = 6, fig.width = 9, echo = TRUE, eval = TRUE, warning=FALSE, message=FALSE,error=FALSE}
+
+
+df_exportimport_final %>% 
+  filter(ExportImport == 'EXPORT')  %>% 
+  group_by(Date,ExportImportRegion) %>% summarize(TotalExport = sum(Level)) %>%   
+  ggplot( aes(x=Date, y=TotalExport, group=ExportImportRegion, color=ExportImportRegion)) +
+  zoo::scale_x_yearqtr(n = 100,format = '%Y Q%q') +
+  geom_line() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "Export numbers on Quarterly basis and Region Wise")
+
+
+```
+
+# References
+
+1. CountryCode Documentation (https://www.rdocumentation.org/packages/countrycode/versions/1.2.0/topics/countrycode)
+2. Stackoverflow (https://stackoverflow.com/)
+3. WordCloud2 Documentation (https://www.r-graph-gallery.com/196-the-wordcloud2-library.html)
+4. KableExtra Documentation (https://www.rdocumentation.org/packages/kableExtra/versions/1.3.4)
