@@ -1,14 +1,14 @@
 ---
 title: "Final Report of Foreign Trade Statistics - Vehicle and Trailer Tracking"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     code_folding: hide
     toc: yes
     toc_float: yes
     theme: united
     highlight: pygments
-  pdf_document:
-    toc: yes
 ---
 ```{css, echo = FALSE}
 h1.title{

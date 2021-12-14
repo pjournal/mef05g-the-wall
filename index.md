@@ -17,8 +17,9 @@ The group analyzed Foreign Trade Statistics that includes import and export data
 - [Project Proposal](FinalProject/project_proposal.html)
 - [Project Proposal PDF](FinalProject/project_proposal.pdf) 
 - [Exploratory Data Analysis of Project](FinalProject/EDA_ForeignTradeStatistics.html)
-- [Final Report](FinalProject/EDA_ForeignTradeStatistics.html)
-- [Presentation](FinalProject/EDA_ForeignTradeStatistics.html)
+- [Final Report](FinalProject/final_report.html)
+- [Final Report PDF](FinalProject/final_report.pdf)
+- [Presentation](FinalProject/presentation.html)
 - [Shiny App](https://thewall.shinyapps.io/ForeignTradeStatistics_ShinyApp/)
 
 You can run shiny app with this code:
