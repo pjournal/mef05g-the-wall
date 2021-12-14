@@ -16,6 +16,7 @@ The group analyzed Foreign Trade Statistics that includes import and export data
 - [Project Proposal](FinalProject/project_proposal.html)
 - [Project Proposal PDF](FinalProject/project_proposal.pdf) 
 - [Exploratory Data Analysis of Project](FinalProject/EDA_ForeignTradeStatistics.html)
+- [Exploratory Data Analysis of Project](FinalProject/EDA_ForeignTradeStatistics.pdf)
 - [Final Report](FinalProject/final_report.html)
 - [Final Report PDF](FinalProject/final_report.pdf)
 - [Presentation](FinalProject/presentation.html)
